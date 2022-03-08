@@ -50,12 +50,12 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\GameStart.cs" />
      <Compile Include="Assets\Scripts\Physx\CodingK_ColliderConfig.cs" />
-     <Compile Include="Assets\Scripts\Physx\CodingK_ColliderBase.cs" />
-     <Compile Include="Assets\Scripts\Physx\CodingK_BoxCollider.cs" />
-     <Compile Include="Assets\Scripts\Physx\CodingK_CylinderCollider.cs" />
      <Compile Include="Assets\Scripts\Physx\CodingK_EnvColliders.cs" />
+     <Compile Include="Assets\Scripts\Physx\CodingK_ColliderBase.cs" />
+     <Compile Include="Assets\Scripts\Physx\CodingK_CylinderCollider.cs" />
+     <Compile Include="Assets\Scripts\Physx\CodingK_BoxCollider.cs" />
+     <Compile Include="Assets\Scripts\GameStart.cs" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>D:/github/CodingKPhysx/UnityDemo/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
