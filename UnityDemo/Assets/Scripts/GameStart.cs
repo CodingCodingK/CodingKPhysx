@@ -130,7 +130,18 @@ public class GameStart : MonoBehaviour
         var moveDir = InputDir;
         playerCollider.mPos += moveDir * logicSpeed * (CodingKInt)multiplier;
         CodingKVector3 borderAdjust = CodingKVector3.zero;
+        // 碰撞检测与矫正值获取
         playerCollider.CalcCollidersInteraction(logicEnv.GetEnvColliders(), ref moveDir, ref borderAdjust);
+        // 矫正
+        if (logicDir != moveDir)
+        {
+            logicDir = moveDir;
+        }
+        if (borderAdjust != CodingKVector3.zero)
+        {
+            playerCollider.mPos += borderAdjust;
+        }
+        
         
         logicPos = playerCollider.mPos;
         player.position = logicPos.ConvertViewVector3();

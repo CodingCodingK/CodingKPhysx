@@ -27,18 +27,72 @@ namespace CodingKPhysx
             {
                 return;
             }
-
+            var collisionInfoList = new List<CollisionInfo>();
             CodingKVector3 normal = CodingKVector3.zero;
             CodingKVector3 adj = CodingKVector3.zero;
-            if (DetectContact(colliders[0], ref normal, ref adj))
+            for (int i = 0; i < colliders.Count; i++)
             {
-                Debug.Log("Contacted.");
+                if (DetectContact(colliders[i], ref normal, ref adj))
+                {
+                    var info = new CollisionInfo()
+                    {
+                        collider = colliders[i],
+                        normal = normal,
+                        borderAdjust = adj,
+                    };
+                    collisionInfoList.Add(info);
+
+                    Debug.Log("Contacted.");
+                }
             }
+
+            if (collisionInfoList.Count == 1)
+            {
+                // 单个碰撞体，修正速度
+                CollisionInfo info = collisionInfoList[0];
+                velocity = CorrectVelocity(velocity, info.normal);
+                borderAdjust = info.borderAdjust;
+                
+            }
+            
+        }
+
+        // normal 法线单位向量
+        private CodingKVector3 CorrectVelocity(CodingKVector3 velocity, CodingKVector3 normal)
+        {
+            if (normal == CodingKVector3.zero)
+            {
+                return velocity;
+            }
+            
+            // 确保角色当前方向是往墙体里走，而不是远离墙体。如果方向是在远离墙体，不需要修正。
+            // 与法线（修正方向）呈90度以上，就是在远离墙体。
+            if (CodingKVector3.Angle(normal, velocity) > CodingKArgs.halfPi)
+            {
+                // 投影值应该为负
+                CodingKInt prjLen = CodingKVector3.Dot(velocity, normal);
+                if (prjLen != 0)
+                {
+                    velocity -= prjLen * normal;
+                }
+            }
+
+            return velocity;
         }
 
         public override bool DetectSphereContact(CodingK_CylinderCollider col, ref CodingKVector3 normal, ref CodingKVector3 borderAdjust)
         {
-            throw new System.NotImplementedException();
+            CodingKVector3 disOffset = mPos - col.mPos;
+            if (disOffset.sqrMagnitude > (mRadius + col.mRadius) * (mRadius + col.mRadius))
+            {
+                return false;
+            }
+            else
+            {
+                normal = disOffset.normalized;
+                borderAdjust = normal * (mRadius + col.mRadius - disOffset.magnitude);
+                return true;
+            }
         }
 
         public override bool DetectBoxContact(CodingK_BoxCollider col, ref CodingKVector3 normal, ref CodingKVector3 borderAdjust)
@@ -69,6 +123,7 @@ namespace CodingKPhysx
                 normal = po.normalized; // 法线向量
                 CodingKInt len = po.magnitude;
                 borderAdjust = normal * (mRadius - len);
+                return true;
             }
         }
     }

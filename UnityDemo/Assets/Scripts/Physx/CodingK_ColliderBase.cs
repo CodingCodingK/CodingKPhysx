@@ -40,4 +40,12 @@ namespace CodingKPhysx
         public abstract bool DetectBoxContact(CodingK_BoxCollider col, ref CodingKVector3 normal,
             ref CodingKVector3 borderAdjust);
     }
+
+    public class CollisionInfo
+    {
+        public CodingK_ColliderBase collider;
+        public CodingKVector3 normal;
+        public CodingKVector3 borderAdjust;
+        
+    }
 }
