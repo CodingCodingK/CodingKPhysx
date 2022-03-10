@@ -137,16 +137,13 @@ public class GameStart : MonoBehaviour
         {
             logicDir = moveDir;
         }
-        if (borderAdjust != CodingKVector3.zero)
+        if (logicDir != CodingKVector3.zero)
         {
-            playerCollider.mPos += borderAdjust;
+            logicPos = playerCollider.mPos + borderAdjust;
         }
         
-        
-        logicPos = playerCollider.mPos;
+        playerCollider.mPos = logicPos;
         player.position = logicPos.ConvertViewVector3();
-        
-        
     }
 
     

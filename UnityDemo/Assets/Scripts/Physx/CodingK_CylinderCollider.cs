@@ -20,6 +20,8 @@ namespace CodingKPhysx
 
         /// <summary>
         /// 检测是否碰撞
+        /// velocity:速度向量 mDir（需要矫正）
+        /// borderAdjust:位置 mPos（需要矫正）
         /// </summary>
         public void CalcCollidersInteraction(List<CodingK_ColliderBase> colliders,ref CodingKVector3 velocity, ref CodingKVector3 borderAdjust)
         {
@@ -27,6 +29,7 @@ namespace CodingKPhysx
             {
                 return;
             }
+            
             var collisionInfoList = new List<CollisionInfo>();
             CodingKVector3 normal = CodingKVector3.zero;
             CodingKVector3 adj = CodingKVector3.zero;
@@ -42,7 +45,7 @@ namespace CodingKPhysx
                     };
                     collisionInfoList.Add(info);
 
-                    Debug.Log("Contacted.");
+                    //Debug.Log("Contacted.");
                 }
             }
 
@@ -59,21 +62,30 @@ namespace CodingKPhysx
                 // 求中间法线
                 CodingKVector3 centerNormal = CodingKVector3.zero;
                 CollisionInfo info = null;
-                CodingKArgs borderNormalAngle = ClacMaxNormalAngle(collisionInfoList, velocity, ref centerNormal, ref info);
+                CodingKArgs borderNormalAngle = CalcMaxNormalAngle(collisionInfoList, velocity, ref centerNormal, ref info);
                 // 比较2个夹角，从而确定是否能动
                 CodingKArgs angle = CodingKVector3.Angle(-velocity, centerNormal);
                 if (angle > borderNormalAngle)
                 {
                     velocity = CorrectVelocity(velocity, info.normal);
+                    
+                    CodingKVector3 adjS = CodingKVector3.zero;
+                    for (int i = 0; i < collisionInfoList.Count; i++)
+                    {
+                        adjS += collisionInfoList[i].borderAdjust;
+                    }
+
+                    borderAdjust = adjS;
                 }
                 else
                 {
                     // 方向在夹角内，不能动
+                    velocity = CodingKVector3.zero;
                 }
             }
             else
             {
-                // Debug.Log("no contact objs");
+                //Debug.Log("no contact objs");
             }
             
         }
@@ -81,15 +93,15 @@ namespace CodingKPhysx
         /// <summary>
         /// 返回各方向反作用力与中间法线构成的角度中，最大的角度
         /// </summary>
-        private CodingKArgs ClacMaxNormalAngle(List<CollisionInfo> infoList, CodingKVector3 velocity, ref CodingKVector3 centerNormal, ref CollisionInfo info)
+        private CodingKArgs CalcMaxNormalAngle(List<CollisionInfo> infoList, CodingKVector3 velocity, ref CodingKVector3 centerNormal, ref CollisionInfo info)
         {
             // 计算出中间法线
             for (int i = 0; i < infoList.Count; i++)
             {
                 centerNormal += infoList[i].normal;
             }
-            centerNormal /= infoList.Count;
-            
+            // TODO deleted by test: centerNormal /= infoList.Count;
+
             CodingKArgs normalAngle = CodingKArgs.zero;
             CodingKArgs velocityAngle = CodingKArgs.zero;
             for (int i = 0; i < infoList.Count; i++)

@@ -1,0 +1,11 @@
+D:\github\CodingKPhysx\netStandardVsProject\CodingKPhysx\CodingKPhysx\obj\Debug\netstandard2.0\CodingKPhysx.GeneratedMSBuildEditorConfig.editorconfig
+D:\github\CodingKPhysx\netStandardVsProject\CodingKPhysx\CodingKPhysx\obj\Debug\netstandard2.0\CodingKPhysx.AssemblyInfoInputs.cache
+D:\github\CodingKPhysx\netStandardVsProject\CodingKPhysx\CodingKPhysx\obj\Debug\netstandard2.0\CodingKPhysx.AssemblyInfo.cs
+D:\github\CodingKPhysx\netStandardVsProject\CodingKPhysx\CodingKPhysx\obj\Debug\netstandard2.0\CodingKPhysx.csproj.CoreCompileInputs.cache
+D:\github\CodingKPhysx\netStandardVsProject\CodingKPhysx\CodingKPhysx\bin\Debug\netstandard2.0\CodingKPhysx.deps.json
+D:\github\CodingKPhysx\netStandardVsProject\CodingKPhysx\CodingKPhysx\bin\Debug\netstandard2.0\CodingKPhysx.dll
+D:\github\CodingKPhysx\netStandardVsProject\CodingKPhysx\CodingKPhysx\bin\Debug\netstandard2.0\CodingKPhysx.pdb
+D:\github\CodingKPhysx\netStandardVsProject\CodingKPhysx\CodingKPhysx\bin\Debug\netstandard2.0\CodingKMath.dll
+D:\github\CodingKPhysx\netStandardVsProject\CodingKPhysx\CodingKPhysx\obj\Debug\netstandard2.0\CodingKPhysx.csproj.CopyComplete
+D:\github\CodingKPhysx\netStandardVsProject\CodingKPhysx\CodingKPhysx\obj\Debug\netstandard2.0\CodingKPhysx.dll
+D:\github\CodingKPhysx\netStandardVsProject\CodingKPhysx\CodingKPhysx\obj\Debug\netstandard2.0\CodingKPhysx.pdb
