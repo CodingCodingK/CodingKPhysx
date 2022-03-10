@@ -41,6 +41,9 @@ namespace CodingKPhysx
             ref CodingKVector3 borderAdjust);
     }
 
+    /// <summary>
+    /// 碰撞信息(碰撞体+所受反作用力法线+反力)
+    /// </summary>
     public class CollisionInfo
     {
         public CodingK_ColliderBase collider;

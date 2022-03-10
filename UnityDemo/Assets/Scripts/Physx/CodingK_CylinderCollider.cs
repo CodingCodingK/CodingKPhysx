@@ -54,7 +54,64 @@ namespace CodingKPhysx
                 borderAdjust = info.borderAdjust;
                 
             }
+            else if (collisionInfoList.Count > 1)
+            {
+                // 求中间法线
+                CodingKVector3 centerNormal = CodingKVector3.zero;
+                CollisionInfo info = null;
+                CodingKArgs borderNormalAngle = ClacMaxNormalAngle(collisionInfoList, velocity, ref centerNormal, ref info);
+                // 比较2个夹角，从而确定是否能动
+                CodingKArgs angle = CodingKVector3.Angle(-velocity, centerNormal);
+                if (angle > borderNormalAngle)
+                {
+                    velocity = CorrectVelocity(velocity, info.normal);
+                }
+                else
+                {
+                    // 方向在夹角内，不能动
+                }
+            }
+            else
+            {
+                // Debug.Log("no contact objs");
+            }
             
+        }
+
+        /// <summary>
+        /// 返回各方向反作用力与中间法线构成的角度中，最大的角度
+        /// </summary>
+        private CodingKArgs ClacMaxNormalAngle(List<CollisionInfo> infoList, CodingKVector3 velocity, ref CodingKVector3 centerNormal, ref CollisionInfo info)
+        {
+            // 计算出中间法线
+            for (int i = 0; i < infoList.Count; i++)
+            {
+                centerNormal += infoList[i].normal;
+            }
+            centerNormal /= infoList.Count;
+            
+            CodingKArgs normalAngle = CodingKArgs.zero;
+            CodingKArgs velocityAngle = CodingKArgs.zero;
+            for (int i = 0; i < infoList.Count; i++)
+            {
+                // 求出各方向反作用力与中间法线构成的角度中，最大的角度
+                CodingKArgs tmpNormalAngle = CodingKVector3.Angle(centerNormal, infoList[i].normal);
+                if (normalAngle < tmpNormalAngle)
+                {
+                    normalAngle = tmpNormalAngle;
+                }
+                
+                // 找出速度方向与法线方向夹角最大的碰撞法线，速度矫正由这个法线来决定
+                CodingKArgs tmpVelAngle = CodingKVector3.Angle(velocity, infoList[i].normal);
+                if (velocityAngle < tmpVelAngle)
+                {
+                    velocityAngle = tmpVelAngle;
+                    info = infoList[i];
+                }
+
+            }
+
+            return normalAngle;
         }
 
         // normal 法线单位向量
